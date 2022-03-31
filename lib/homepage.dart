@@ -19,14 +19,16 @@ class MyHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: ValueListenableBuilder(
-        valueListenable: bottomNavIndex,
-        builder: (context, int index, _) {
-          return _pages[index];
-        },
+    return SafeArea(
+      child: Scaffold(
+        body: ValueListenableBuilder(
+          valueListenable: bottomNavIndex,
+          builder: (context, int index, _) {
+            return _pages[index];
+          },
+        ),
+        bottomNavigationBar: BottomNavScreen(),
       ),
-      bottomNavigationBar: BottomNavScreen(),
     );
   }
 }
