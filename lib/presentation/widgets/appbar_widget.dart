@@ -10,22 +10,30 @@ class AppBarWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Text(
-          title,
-          style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-        ),
-        Spacer(),
-        Icon(Icons.cast, color: kwhite),
-        kwidth,
-        Container(
-          height: 25,
-          width: 25,
-          color: Colors.blue,
-        ),
-        kwidth
-      ],
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Text(
+            title,
+            style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+          ),
+          Spacer(),
+          Icon(
+            Icons.cast,
+            color: kwhite,
+            size: 28,
+          ),
+          kwidth,
+          Container(
+            height: 25,
+            width: 25,
+            color: Colors.blue,
+          ),
+          kwidth
+        ],
+      ),
     );
   }
 }

@@ -10,7 +10,7 @@ class MyHomePage extends StatelessWidget {
   MyHomePage({Key? key}) : super(key: key);
 
   final _pages = [
-    HomeScreen(),
+    const HomeScreen(),
     HotandNewScreen(),
     JustLaughScreen(),
     SearchScreen(),
@@ -19,16 +19,14 @@ class MyHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: ValueListenableBuilder(
-          valueListenable: bottomNavIndex,
-          builder: (context, int index, _) {
-            return _pages[index];
-          },
-        ),
-        bottomNavigationBar: BottomNavScreen(),
+    return Scaffold(
+      body: ValueListenableBuilder(
+        valueListenable: bottomNavIndex,
+        builder: (context, int index, _) {
+          return _pages[index];
+        },
       ),
+      bottomNavigationBar: const BottomNavScreen(),
     );
   }
 }

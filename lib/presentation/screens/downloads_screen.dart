@@ -15,16 +15,18 @@ class DownloadsScreen extends StatelessWidget {
   ];
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: const PreferredSize(
-        preferredSize: Size.fromHeight(50),
-        child: AppBarWidget(title: "Downloads"),
-      ),
-      body: ListView.separated(
-        padding: const EdgeInsets.all(10),
-        itemBuilder: (context, index) => _widgetList[index],
-        separatorBuilder: (ctx, index) => const SizedBox(height: 25),
-        itemCount: _widgetList.length,
+    return SafeArea(
+      child: Scaffold(
+        appBar: const PreferredSize(
+          preferredSize: Size.fromHeight(50),
+          child: AppBarWidget(title: "Downloads"),
+        ),
+        body: ListView.separated(
+          padding: const EdgeInsets.all(10),
+          itemBuilder: (context, index) => _widgetList[index],
+          separatorBuilder: (ctx, index) => const SizedBox(height: 25),
+          itemCount: _widgetList.length,
+        ),
       ),
     );
   }

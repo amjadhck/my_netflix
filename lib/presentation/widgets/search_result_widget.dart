@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_netflix/core/constans.dart';
-import 'package:my_netflix/presentation/widgets/search_head.dart';
+import 'package:my_netflix/presentation/widgets/title_widget.dart';
 
 const imageUrl =
     "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/3cccEF9QZgV9bLWyupJO41HSrOV.jpg";
@@ -13,7 +13,7 @@ class SearchReslultWidget extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const SearchHeadWidget(title: "Movies & TV"),
+        const MainCardTitleWidget(title: "Movies & TV"),
         kheight,
         Expanded(
           child: GridView.count(
