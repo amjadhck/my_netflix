@@ -11,7 +11,7 @@ borderRadius(double radius) {
   return BorderRadius.circular(radius);
 }
 
-final TextStyle kHomeTextStyle = TextStyle(
+const TextStyle kHomeTextStyle = TextStyle(
   color: kwhite,
   fontSize: 16,
 );
