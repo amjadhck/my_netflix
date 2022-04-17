@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_netflix/core/constans.dart';
 import 'package:my_netflix/presentation/widgets/title_widget.dart';
 
-const imageUrl =
-    "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/3cccEF9QZgV9bLWyupJO41HSrOV.jpg";
+import '../../application/search/search_bloc.dart';
 
 class SearchReslultWidget extends StatelessWidget {
   const SearchReslultWidget({Key? key}) : super(key: key);
@@ -16,14 +16,23 @@ class SearchReslultWidget extends StatelessWidget {
         const MainCardTitleWidget(title: "Movies & TV"),
         kheight,
         Expanded(
-          child: GridView.count(
-            crossAxisCount: 3,
-            crossAxisSpacing: 8,
-            mainAxisSpacing: 8,
-            childAspectRatio: 1 / 1.4,
-            children: List.generate(20, (index) {
-              return const MainCard();
-            }),
+          child: BlocBuilder<SearchBloc, SearchState>(
+            builder: (context, state) {
+              int gridLength = state.searchResultData.length;
+              //print(state.searchResultData);
+              return GridView.count(
+                crossAxisCount: 3,
+                crossAxisSpacing: 8,
+                mainAxisSpacing: 8,
+                childAspectRatio: 1 / 1.4,
+                children: List.generate(gridLength, (index) {
+                  final movie = state.searchResultData[index];
+                  return MainCard(
+                    imageUrl: '$imageAppendUrl${movie.posterPath}',
+                  );
+                }),
+              );
+            },
           ),
         ),
       ],
@@ -32,7 +41,8 @@ class SearchReslultWidget extends StatelessWidget {
 }
 
 class MainCard extends StatelessWidget {
-  const MainCard({Key? key}) : super(key: key);
+  final String imageUrl;
+  const MainCard({Key? key, required this.imageUrl}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

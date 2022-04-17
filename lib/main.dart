@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
+import 'package:my_netflix/application/downloads/downloads_bloc.dart';
 import 'package:my_netflix/core/colors.dart';
+import 'package:my_netflix/domain/dependency_injection/injectable.dart';
 
+import 'application/search/search_bloc.dart';
 import 'homepage.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await ConfigureInjection();
   runApp(const MyApp());
 }
 
@@ -11,23 +18,29 @@ class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'My Netflix',
-      theme: ThemeData(
-        appBarTheme: const AppBarTheme(backgroundColor: Colors.transparent),
-        primarySwatch: Colors.blue,
-        scaffoldBackgroundColor: backgroundColor,
-        textTheme: const TextTheme(
-          bodyText1: TextStyle(
-            color: textColor,
-          ),
-          bodyText2: TextStyle(
-            color: textColor,
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => getIt<DownloadsBloc>()),
+        BlocProvider(create: (context) => getIt<SearchBloc>()),
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'My Netflix',
+        theme: ThemeData(
+          appBarTheme: const AppBarTheme(backgroundColor: Colors.transparent),
+          primarySwatch: Colors.blue,
+          scaffoldBackgroundColor: backgroundColor,
+          textTheme: const TextTheme(
+            bodyText1: TextStyle(
+              color: textColor,
+            ),
+            bodyText2: TextStyle(
+              color: textColor,
+            ),
           ),
         ),
+        home: MyHomePage(),
       ),
-      home: MyHomePage(),
     );
   }
 }

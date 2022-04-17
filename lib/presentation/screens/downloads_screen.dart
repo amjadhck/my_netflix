@@ -1,3 +1,4 @@
+import 'dart:developer' as dev;
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -25,7 +26,7 @@ class DownloadsScreen extends StatelessWidget {
         ),
         body: ListView.separated(
           padding: const EdgeInsets.all(10),
-          itemBuilder: (context, index) => _widgetList[index],
+          itemBuilder: (context, idx) => _widgetList[idx],
           separatorBuilder: (ctx, index) => const SizedBox(height: 25),
           itemCount: _widgetList.length,
         ),
@@ -85,12 +86,12 @@ class Section3 extends StatelessWidget {
 }
 
 class Section2 extends StatelessWidget {
-  Section2({Key? key}) : super(key: key);
-  final movieList = [
-    "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/n7PVu0hSz2sAsVekpOIoCnkWlbn.jpg",
-    "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/3cccEF9QZgV9bLWyupJO41HSrOV.jpg",
-    "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/bQnnKBe3VsvXKMoNCaYmRzs1Dup.jpg",
-  ];
+  const Section2({Key? key}) : super(key: key);
+  // final movieList = [
+  //   "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/n7PVu0hSz2sAsVekpOIoCnkWlbn.jpg",
+  //   "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/3cccEF9QZgV9bLWyupJO41HSrOV.jpg",
+  //   "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/bQnnKBe3VsvXKMoNCaYmRzs1Dup.jpg",
+  // ];
   @override
   Widget build(BuildContext context) {
     WidgetsBinding.instance!.addPostFrameCallback((_) {
@@ -114,36 +115,56 @@ class Section2 extends StatelessWidget {
           textAlign: TextAlign.center,
           style: TextStyle(fontSize: 16, color: kgrey),
         ),
-        SizedBox(
-          height: size.width,
-          width: size.width,
-          child: Stack(
-            alignment: AlignmentDirectional.center,
-            children: [
-              CircleAvatar(
-                backgroundColor: kgrey.withOpacity(0.5),
-                radius: size.width * 0.39,
-              ),
-              DownloadsImageWidget(
-                size: Size(size.width * 0.34, size.height * 0.24),
-                movieList: movieList[0],
-                margin: const EdgeInsets.only(left: 200, bottom: 50, top: 30),
-                angle: 20,
-              ),
-              DownloadsImageWidget(
-                size: Size(size.width * 0.34, size.height * 0.24),
-                movieList: movieList[1],
-                margin: const EdgeInsets.only(right: 200, bottom: 50, top: 30),
-                angle: -20,
-              ),
-              DownloadsImageWidget(
-                size: Size(size.width * 0.39, size.height * 0.29),
-                movieList: movieList[2],
-                margin: const EdgeInsets.only(top: 20),
-                angle: 0,
-              ),
-            ],
-          ),
+        BlocBuilder<DownloadsBloc, DownloadState>(
+          builder: (context, state) {
+            //dev.log(state.downloads.toString());
+            //dev.log(movieList.toString());
+            return SizedBox(
+              height: size.width,
+              width: size.width,
+
+              //put loading logo here with turnery operator and use state.isLoading variable
+              child: state.isLoading || state.downloads.isEmpty
+                  ? const Center(
+                      child: CircularProgressIndicator(),
+                    )
+                  : Stack(
+                      alignment: AlignmentDirectional.center,
+                      children: [
+                        CircleAvatar(
+                          backgroundColor: kgrey.withOpacity(0.5),
+                          radius: size.width * 0.39,
+                        ),
+                        DownloadsImageWidget(
+                          size: Size(size.width * 0.34, size.height * 0.24),
+                          movieList:
+                              //movieList[0],
+                              '$imageAppendUrl${state.downloads[0].posterPath}',
+                          margin: const EdgeInsets.only(
+                              left: 200, bottom: 50, top: 30),
+                          angle: 20,
+                        ),
+                        DownloadsImageWidget(
+                          size: Size(size.width * 0.34, size.height * 0.24),
+                          movieList:
+                              //movieList[1],
+                              '$imageAppendUrl${state.downloads[1].posterPath}',
+                          margin: const EdgeInsets.only(
+                              right: 200, bottom: 50, top: 30),
+                          angle: -20,
+                        ),
+                        DownloadsImageWidget(
+                          size: Size(size.width * 0.39, size.height * 0.29),
+                          movieList:
+                              //movieList[2],
+                              '$imageAppendUrl${state.downloads[2].posterPath}',
+                          margin: const EdgeInsets.only(top: 20),
+                          angle: 0,
+                        ),
+                      ],
+                    ),
+            );
+          },
         ),
       ],
     );

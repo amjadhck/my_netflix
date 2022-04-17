@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:my_netflix/domain/api_services/api_endpoints.dart';
@@ -13,16 +15,19 @@ class DownloadsRepositry implements DownloadsRepo {
     try {
       final Response response =
           await Dio(BaseOptions()).get(ApiEndPoints.downloads);
+      //print(response.data);
       if (response.statusCode == 200 || response.statusCode == 201) {
-        final List<Downloads> dowloadList = [];
-        for (final raw in response.data) {
-          dowloadList.add(Downloads.fromJson(raw as Map<String, dynamic>));
-        }
+        final List<Downloads> dowloadList =
+            (response.data['results'] as List).map((e) {
+          return Downloads.fromJson(e);
+        }).toList();
+        //print(dowloadList);
         return Right(dowloadList);
       } else {
         return const Left(MainFailure.serverFailure());
       }
-    } catch (_) {
+    } catch (e) {
+      //log(e.toString());
       return const Left(MainFailure.clientFailure());
     }
   }

@@ -18,13 +18,17 @@ class DownloadsBloc extends Bloc<DownloadsEvent, DownloadState> {
   final DownloadsRepo downloadsrepo;
   DownloadsBloc(this.downloadsrepo) : super(DownloadState.initial()) {
     on<_GetDownloadsImage>((event, emit) async {
+      if (state.downloads.isNotEmpty) {
+        emit(state);
+        return;
+      }
       emit(state.copyWith(
         isLoading: true,
         downloadsFailureOrSuccessOption: none(),
       ));
       final Either<MainFailure, List<Downloads>> downloadOptions =
           await downloadsrepo.getDownlodsImages();
-      log(downloadOptions.toString());
+      //log(downloadOptions.toString());
       emit(
         downloadOptions.fold(
           (failure) => state.copyWith(

@@ -15,3 +15,5 @@ const TextStyle kHomeTextStyle = TextStyle(
   color: kwhite,
   fontSize: 16,
 );
+
+const imageAppendUrl = "https://image.tmdb.org/t/p/w500";
