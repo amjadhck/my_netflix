@@ -21,7 +21,7 @@ class DownloadsRepositry implements DownloadsRepo {
             (response.data['results'] as List).map((e) {
           return Downloads.fromJson(e);
         }).toList();
-        //print(dowloadList);
+        print(dowloadList);
         return Right(dowloadList);
       } else {
         return const Left(MainFailure.serverFailure());
