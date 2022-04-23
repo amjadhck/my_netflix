@@ -1,12 +1,9 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
-
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../application/hot_and_new/hotandnew_bloc.dart';
 import '../../core/colors.dart';
 import '../../core/constans.dart';
-import '../widgets/appbar_widget.dart';
 import '../widgets/coming_soon_widget.dart';
 import '../widgets/everyones_watching_widget.dart';
 
@@ -113,13 +110,44 @@ class HotandNewScreen extends StatelessWidget {
               ),
             ),
           ),
-          ListView.builder(
-              shrinkWrap: true,
-              physics: ScrollPhysics(),
-              itemCount: 5,
-              itemBuilder: (ctx, index) {
-                return ComingSoonWidget();
-              }),
+          BlocBuilder<HotandnewBloc, HotandnewState>(
+            builder: (context, state) {
+              print(state.movieList);
+              if (state.isLoading) {
+                return Center(
+                  child: CircularProgressIndicator.adaptive(
+                    strokeWidth: 4,
+                  ),
+                );
+              } else if (state.isError) {
+                return Center(
+                  child: Text("Something went wrong"),
+                );
+              } else if (state.movieList.isEmpty) {
+                return Center(
+                  child: Text("No UpComing Movies"),
+                );
+              } else {
+                return ListView.builder(
+                    shrinkWrap: true,
+                    physics: ScrollPhysics(),
+                    itemCount: state.movieList.length,
+                    itemBuilder: (ctx, index) {
+                      final movie = state.movieList[index];
+
+                      return ComingSoonWidget(
+                        id: movie.id.toString(),
+                        month: "MAR",
+                        day: "12",
+                        posterPath: '$imageAppendUrl${movie.backdropPath}',
+                        title: movie.originalTitle ?? movie.title ?? "No Title",
+                        description: movie.overview ?? "No description",
+                        isadult: movie.adult!,
+                      );
+                    });
+              }
+            },
+          ),
         ],
       ),
     );

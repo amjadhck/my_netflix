@@ -1,18 +1,38 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
+import '../../application/downloads/downloads_bloc.dart';
+import '../../application/hot_and_new/hotandnew_bloc.dart';
 import '../../core/constans.dart';
 import '../screens/hotandnew_scree.dart';
 
 class ComingSoonWidget extends StatelessWidget {
+  final String id;
+  final String month;
+  final String day;
+  final String posterPath;
+  final String title;
+  final String description;
+  final bool isadult;
   const ComingSoonWidget({
     Key? key,
+    required this.id,
+    required this.month,
+    required this.day,
+    required this.posterPath,
+    required this.title,
+    required this.description,
+    required this.isadult,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      BlocProvider.of<HotandnewBloc>(context).add(HotandnewEvent.initialize());
+    });
     Size size = MediaQuery.of(context).size;
     return Padding(
       padding: const EdgeInsets.only(bottom: 10),

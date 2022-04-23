@@ -6,6 +6,7 @@ import 'package:my_netflix/core/colors.dart';
 import 'package:my_netflix/domain/dependency_injection/injectable.dart';
 
 import 'application/fast_laugh/fastlaugh_bloc.dart';
+import 'application/hot_and_new/hotandnew_bloc.dart';
 import 'application/search/search_bloc.dart';
 import 'homepage.dart';
 
@@ -24,6 +25,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => getIt<DownloadsBloc>()),
         BlocProvider(create: (context) => getIt<SearchBloc>()),
         BlocProvider(create: (context) => getIt<FastlaughBloc>()),
+        BlocProvider(create: (context) => getIt<HotandnewBloc>()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
