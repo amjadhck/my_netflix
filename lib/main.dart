@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
+
 import 'package:my_netflix/application/downloads/downloads_bloc.dart';
 import 'package:my_netflix/core/colors.dart';
 import 'package:my_netflix/domain/dependency_injection/injectable.dart';

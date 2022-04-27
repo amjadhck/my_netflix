@@ -13,6 +13,9 @@ _$_Downloads _$$_DownloadsFromJson(Map<String, dynamic> json) => _$_Downloads(
       originalTitle: json['original_title'] as String?,
       originalName: json['original_name'] as String?,
       name: json['name'] as String?,
+      description: json['overview'] as String?,
+      isAdult: json['adult'] as bool?,
+      media: json['media_type'] as String?,
     );
 
 Map<String, dynamic> _$$_DownloadsToJson(_$_Downloads instance) =>
@@ -23,4 +26,7 @@ Map<String, dynamic> _$$_DownloadsToJson(_$_Downloads instance) =>
       'original_title': instance.originalTitle,
       'original_name': instance.originalName,
       'name': instance.name,
+      'overview': instance.description,
+      'adult': instance.isAdult,
+      'media_type': instance.media,
     };

@@ -2,44 +2,58 @@
 
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:my_netflix/domain/downloads/downloads_modals/downloads.dart';
+import 'package:share_plus/share_plus.dart';
 
 import '../../core/constans.dart';
 import '../screens/hotandnew_scree.dart';
 
 class EveryoneswatchingWidget extends StatelessWidget {
+  final String posterPath;
+  final String title;
+  final String description;
+  final bool isadult;
+  final String media;
   const EveryoneswatchingWidget({
     Key? key,
+    required this.posterPath,
+    required this.title,
+    required this.description,
+    required this.isadult,
+    required this.media,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 10),
-      child: Row(
-        children: [
-          Container(
-            height: 500,
-            width: 50,
-            color: Colors.amber,
-          ),
-          Container(
-            height: 500,
-            width: size.width - 50,
-            color: Colors.transparent,
+    return Row(
+      children: [
+        // Container(
+        //   height: 500,
+        //   width: 50,
+        //   color: Colors.amber,
+        // ),
+        Container(
+          height: 500,
+          width: size.width,
+          color: Colors.transparent,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Stack(
                   children: [
                     Container(
-                      width: size.width - 60,
+                      width: size.width,
                       height: 230,
                       decoration: BoxDecoration(
                           borderRadius: borderRadius(20),
                           color: Colors.blue,
                           image: DecorationImage(
-                              fit: BoxFit.cover, image: NetworkImage(image))),
+                              fit: BoxFit.cover,
+                              image:
+                                  NetworkImage('$imageAppendUrl$posterPath'))),
                     ),
                     Positioned(
                       bottom: 10,
@@ -58,7 +72,7 @@ class EveryoneswatchingWidget extends StatelessWidget {
                         alignment: Alignment.center,
                         color: Colors.grey.shade900.withOpacity(0.8),
                         child: Text(
-                          "18+",
+                          isadult ? "18+" : "13+",
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                       ),
@@ -69,29 +83,39 @@ class EveryoneswatchingWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     kwidth,
-                    Text(
-                      "Better Call Saul",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20,
+                    Flexible(
+                      child: Text(
+                        title,
+                        maxLines: 1,
+                        softWrap: false,
+                        overflow: TextOverflow.fade,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                        ),
                       ),
                     ),
                     Spacer(),
                     Column(
                       children: [
-                        IconButton(onPressed: () {}, icon: Icon(MdiIcons.bell)),
-                        Text("Remind Me"),
+                        IconButton(
+                            onPressed: () {
+                              Share.share(title);
+                            },
+                            icon: Icon(Icons.share, color: Colors.white)),
+                        Text("Share"),
                       ],
                     ),
                     Column(
                       children: [
-                        IconButton(onPressed: () {}, icon: Icon(Icons.info)),
-                        Text("Info"),
+                        IconButton(
+                            onPressed: () {},
+                            icon: Icon(Icons.add, color: Colors.white)),
+                        Text("My List"),
                       ],
                     ),
                   ],
                 ),
-                Text("Season 6 Coming on 22 April"),
                 Row(
                   children: [
                     Image.network(
@@ -99,30 +123,30 @@ class EveryoneswatchingWidget extends StatelessWidget {
                       height: 10,
                       width: 10,
                     ),
-                    Text("Series"),
+                    Text(media),
                   ],
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Better Call saul",
+                      title,
                       style: TextStyle(
                         fontSize: 25,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                     Text(
-                      "Better Call Saul Better Call SaulBetter Call SaulBetter Call SaulBetter Call SaulBetter Call SaulBetter Call SaulBetter Call SaulBetter Call SaulBetter Call SaulBetter Call SaulBetter Call SaulBetter Call SaulBetter Call SaulBetter Call SaulBetter Call SaulBetter Call Saul",
+                      description,
                     ),
-                    Text("Better 🔴 call 🔴 saul")
+                    //Text("Better 🔴 call 🔴 saul")
                   ],
                 ),
               ],
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

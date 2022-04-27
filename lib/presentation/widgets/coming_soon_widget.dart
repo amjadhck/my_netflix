@@ -30,9 +30,6 @@ class ComingSoonWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
-      BlocProvider.of<HotandnewBloc>(context).add(HotandnewEvent.initialize());
-    });
     Size size = MediaQuery.of(context).size;
     return Padding(
       padding: const EdgeInsets.only(bottom: 10),
@@ -43,16 +40,16 @@ class ComingSoonWidget extends StatelessWidget {
             width: 50,
             //color: Colors.amber,
             child: Column(
-              children: const [
+              children: [
                 Text(
-                  "APR",
+                  month,
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 17,
                       color: Colors.grey),
                 ),
                 Text(
-                  "12",
+                  day,
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 32,
@@ -76,8 +73,10 @@ class ComingSoonWidget extends StatelessWidget {
                       decoration: BoxDecoration(
                           borderRadius: borderRadius(20),
                           color: Colors.blue,
-                          image: const DecorationImage(
-                              fit: BoxFit.cover, image: NetworkImage(image))),
+                          image: DecorationImage(
+                              fit: BoxFit.cover,
+                              image:
+                                  NetworkImage('$imageAppendUrl$posterPath'))),
                     ),
                     Positioned(
                       bottom: 10,
@@ -95,8 +94,8 @@ class ComingSoonWidget extends StatelessWidget {
                         width: 32,
                         alignment: Alignment.center,
                         color: Colors.grey.shade900.withOpacity(0.8),
-                        child: const Text(
-                          "18+",
+                        child: Text(
+                          isadult ? "18+" : "13+",
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                       ),
@@ -107,29 +106,45 @@ class ComingSoonWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     kwidth,
-                    Text(
-                      "Better Call Saul",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20,
+                    Flexible(
+                      child: Text(
+                        title,
+                        maxLines: 1,
+                        softWrap: false,
+                        overflow: TextOverflow.fade,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                        ),
                       ),
                     ),
                     Spacer(),
                     Column(
                       children: [
-                        IconButton(onPressed: () {}, icon: Icon(MdiIcons.bell)),
+                        IconButton(
+                            onPressed: () {},
+                            icon: Icon(
+                              MdiIcons.bell,
+                              color: Colors.white,
+                            )),
                         Text("Remind Me"),
                       ],
                     ),
                     Column(
                       children: [
-                        IconButton(onPressed: () {}, icon: Icon(Icons.info)),
+                        IconButton(
+                            onPressed: () {},
+                            icon: Icon(
+                              Icons.info,
+                              color: Colors.white,
+                            )),
                         Text("Info"),
+                        kwidth,
                       ],
                     ),
                   ],
                 ),
-                Text("Season 6 Coming on 22 April"),
+                Text("Coming on $day ${month.toLowerCase()}"),
                 Row(
                   children: [
                     Image.network(
@@ -144,16 +159,18 @@ class ComingSoonWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Better Call saul",
+                      title,
                       style: TextStyle(
                         fontSize: 25,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                     Text(
-                      "Better Call Saul Better Call SaulBetter Call SaulBetter Call SaulBetter Call SaulBetter Call SaulBetter Call SaulBetter Call SaulBetter Call SaulBetter Call SaulBetter Call SaulBetter Call SaulBetter Call SaulBetter Call SaulBetter Call SaulBetter Call SaulBetter Call Saul",
+                      description,
+                      maxLines: 4,
+                      overflow: TextOverflow.fade,
                     ),
-                    Text("Better 🔴 call 🔴 saul")
+                    //Text("Better 🔴 call 🔴 saul")
                   ],
                 ),
               ],

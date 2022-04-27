@@ -18,21 +18,29 @@ class HotandnewBloc extends Bloc<HotandnewEvent, HotandnewState> {
   final HotandNewRepo hotandNewRepo;
   HotandnewBloc(this.hotandNewRepo) : super(HotandnewState.initial()) {
     on<_Initialize>((event, emit) async {
+      if (state.movieList.isNotEmpty) {
+        emit(state);
+        return;
+      }
       emit(state.copyWith(
         movieList: [],
         isError: false,
         isLoading: true,
       ));
       final _result = await hotandNewRepo.getUpcomingMovies();
-      log(_result.toString());
+      //log(_result.toString());
       final newState = _result.fold(
-          (MainFailure failure) => state.copyWith(
-                movieList: [],
-                isLoading: false,
-                isError: true,
-              ),
-          (HotAndNewResp resp) => state.copyWith(
-              isError: false, isLoading: false, movieList: resp.results));
+        (MainFailure failure) => state.copyWith(
+          movieList: [],
+          isLoading: false,
+          isError: true,
+        ),
+        (HotAndNewResp resp) => state.copyWith(
+          isError: false,
+          isLoading: false,
+          movieList: resp.results,
+        ),
+      );
       emit(newState);
     });
   }

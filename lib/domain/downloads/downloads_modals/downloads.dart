@@ -1,4 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+
+import 'downloads.dart';
 part 'downloads.freezed.dart';
 part 'downloads.g.dart';
 
@@ -11,6 +13,9 @@ class Downloads with _$Downloads {
     @JsonKey(name: "original_title") required String? originalTitle,
     @JsonKey(name: "original_name") required String? originalName,
     @JsonKey(name: "name") required String? name,
+    @JsonKey(name: "overview") required String? description,
+    @JsonKey(name: "adult") required bool? isAdult,
+    @JsonKey(name: "media_type") required String? media,
   }) = _Downloads;
 
   factory Downloads.fromJson(Map<String, dynamic> json) =>
