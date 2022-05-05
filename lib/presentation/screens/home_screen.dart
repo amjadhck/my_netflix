@@ -1,10 +1,15 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
 
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_netflix/core/colors.dart';
 import 'package:my_netflix/core/constans.dart';
 import 'package:my_netflix/presentation/widgets/title_widget.dart';
+
+import '../../application/homescreen/homescreen_bloc.dart';
 
 const imageUrl =
     "https://www.themoviedb.org/t/p/w220_and_h330_face/BzVjmm8l23rPsijLiNLUzuQtyd.jpg";
@@ -72,6 +77,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      BlocProvider.of<HomescreenBloc>(context)
+          .add(const HomescreenEvent.initialize());
+    });
     return Scaffold(
       body: Stack(
         children: [
@@ -80,25 +89,71 @@ class _HomeScreenState extends State<HomeScreen> {
             left: 0,
             right: 0,
             bottom: 0,
-            child: ListView(
-              controller: _controller,
-              children: [
-                Stack(
+            child: BlocBuilder<HomescreenBloc, HomescreenState>(
+              builder: (context, state) {
+                //print(state.dramaList);
+                final dramaList = state.dramaList.map((m) {
+                  while (m.genreIds!.contains(10759)) {
+                    return '$imageAppendUrl${m.posterPath}';
+                  }
+                }).toList();
+                dramaList.removeWhere((element) => element == null);
+                final lastyearList = state.lastYearList.map((m) {
+                  {
+                    return '$imageAppendUrl${m.posterPath}';
+                  }
+                }).toList();
+
+                final trendingList = state.trendingMoviesList.map((m) {
+                  {
+                    return '$imageAppendUrl${m.posterPath}';
+                  }
+                }).toList();
+
+                final top10List = state.top10ratedMoviesList.map((m) {
+                  {
+                    return '$imageAppendUrl${m.posterPath}';
+                  }
+                }).toList();
+
+                final mainCardImage = state.mainCardImage;
+                return ListView(
+                  controller: _controller,
                   children: [
-                    MainBackgroundImage(),
-                    HomeBottomRow(),
+                    Stack(
+                      children: [
+                        MainBackgroundImage(
+                          posterPath: mainCardImage,
+                        ),
+                        HomeBottomRow(),
+                      ],
+                    ),
+                    MainTitleCard(
+                      title: "Realesed in the past year",
+                      posterList: lastyearList,
+                    ),
+                    kheight,
+                    Top10Card(
+                      posterpath: top10List,
+                    ),
+                    kheight,
+                    MainTitleCard(
+                      title: "Trending Now",
+                      posterList: trendingList,
+                    ),
+                    kheight,
+                    MainTitleCard(
+                      title: "Dramas in TV",
+                      posterList: dramaList,
+                    ),
+                    kheight,
+                    MainTitleCard(
+                      title: "South Indan Cinema",
+                      posterList: top10List,
+                    )
                   ],
-                ),
-                MainTitleCard(title: "Realesed in the past year"),
-                kheight,
-                Top10Card(),
-                kheight,
-                MainTitleCard(title: "Trending Now"),
-                kheight,
-                MainTitleCard(title: "Tense Dramas"),
-                kheight,
-                MainTitleCard(title: "South Indan Cinema")
-              ],
+                );
+              },
             ),
           ),
           //Netflix logo, cast container
@@ -203,8 +258,10 @@ class TopContainer extends StatelessWidget {
 
 //first big background image
 class MainBackgroundImage extends StatelessWidget {
+  final String posterPath;
   const MainBackgroundImage({
     Key? key,
+    required this.posterPath,
   }) : super(key: key);
 
   @override
@@ -227,8 +284,9 @@ class MainBackgroundImage extends StatelessWidget {
       ),
       decoration: BoxDecoration(
         color: kblue,
-        image:
-            DecorationImage(image: NetworkImage(imageUrl), fit: BoxFit.cover),
+        image: DecorationImage(
+            image: NetworkImage('$imageAppendUrl$posterPath'),
+            fit: BoxFit.cover),
       ),
     );
   }
@@ -297,9 +355,11 @@ class HomeBottomRow extends StatelessWidget {
 
 class MainTitleCard extends StatelessWidget {
   final String title;
+  final List<String?> posterList;
   const MainTitleCard({
     Key? key,
     required this.title,
+    required this.posterList,
   }) : super(key: key);
 
   @override
@@ -313,19 +373,22 @@ class MainTitleCard extends StatelessWidget {
           maxHeight: 200,
           child: ListView(
               scrollDirection: Axis.horizontal,
-              children: List.generate(10, (index) {
+              children: List.generate(posterList.length, (index) {
                 return Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Container(
                     height: 200,
                     width: 130,
                     decoration: BoxDecoration(
-                        color: Colors.amber,
-                        borderRadius: borderRadius10,
-                        image: DecorationImage(
-                            fit: BoxFit.cover,
-                            image: NetworkImage(
-                                "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/bQnnKBe3VsvXKMoNCaYmRzs1Dup.jpg"))),
+                      color: Colors.amber,
+                      borderRadius: borderRadius10,
+                      image: DecorationImage(
+                        fit: BoxFit.cover,
+                        image: NetworkImage(
+                          posterList[index] ?? "",
+                        ),
+                      ),
+                    ),
                   ),
                 );
               })),
@@ -336,14 +399,15 @@ class MainTitleCard extends StatelessWidget {
 }
 
 class Top10Card extends StatelessWidget {
-  const Top10Card({Key? key}) : super(key: key);
+  final List<String> posterpath;
+  const Top10Card({Key? key, required this.posterpath}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        MainCardTitleWidget(title: "Top 10 Trending now in India"),
+        MainCardTitleWidget(title: "Top 10 Trending Now"),
         kheight,
         LimitedBox(
           maxHeight: 300,
@@ -362,12 +426,15 @@ class Top10Card extends StatelessWidget {
                           height: 340,
                           width: 200,
                           decoration: BoxDecoration(
-                              color: Colors.amber,
-                              borderRadius: borderRadius10,
-                              image: DecorationImage(
-                                  fit: BoxFit.cover,
-                                  image: NetworkImage(
-                                      "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/3cccEF9QZgV9bLWyupJO41HSrOV.jpg"))),
+                            color: Colors.amber,
+                            borderRadius: borderRadius10,
+                            image: DecorationImage(
+                              fit: BoxFit.cover,
+                              image: NetworkImage(
+                                posterpath[index],
+                              ),
+                            ),
+                          ),
                         ),
                       ),
                     ),

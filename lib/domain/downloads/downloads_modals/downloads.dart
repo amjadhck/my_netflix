@@ -1,6 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import 'downloads.dart';
 part 'downloads.freezed.dart';
 part 'downloads.g.dart';
 

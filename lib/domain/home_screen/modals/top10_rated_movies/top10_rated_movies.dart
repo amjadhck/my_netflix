@@ -1,11 +1,9 @@
 import 'package:json_annotation/json_annotation.dart';
 
-
 part 'top10_rated_movies.g.dart';
 
 @JsonSerializable()
 class Top10RatedMovies {
-
   @JsonKey(name: 'results')
   List<Top10RatedMoviesResult>? results;
 
@@ -19,6 +17,7 @@ class Top10RatedMovies {
 
   Map<String, dynamic> toJson() => _$Top10RatedMoviesToJson(this);
 }
+
 @JsonSerializable()
 class Top10RatedMoviesResult {
   bool? adult;

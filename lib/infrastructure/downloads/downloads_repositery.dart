@@ -15,13 +15,17 @@ class DownloadsRepositry implements DownloadsRepo {
     try {
       final Response response =
           await Dio(BaseOptions()).get(ApiEndPoints.downloads);
-      //print(response.data);
+      log(response.data);
       if (response.statusCode == 200 || response.statusCode == 201) {
         final List<Downloads> dowloadList =
             (response.data['results'] as List).map((e) {
           return Downloads.fromJson(e);
         }).toList();
-        print(dowloadList);
+        final List<Downloads> dowloadList2 =
+            (response.data['results'][''] as List).map((e) {
+          return Downloads.fromJson(e);
+        }).toList();
+        //print(dowloadList);
         return Right(dowloadList);
       } else {
         return const Left(MainFailure.serverFailure());
