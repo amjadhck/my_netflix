@@ -186,7 +186,7 @@ class _$HomescreenStateTearOff {
       required List<RealesedInPastYearResult> lastYearList,
       required List<TopTrendingMoviesResult> trendingMoviesList,
       required List<Top10RatedMoviesResult> top10ratedMoviesList,
-      required String mainCardImage,
+      required String? mainCardImage,
       required bool isLoading,
       required bool isError}) {
     return _Initial(
@@ -215,7 +215,7 @@ mixin _$HomescreenState {
       throw _privateConstructorUsedError;
   List<Top10RatedMoviesResult> get top10ratedMoviesList =>
       throw _privateConstructorUsedError;
-  String get mainCardImage => throw _privateConstructorUsedError;
+  String? get mainCardImage => throw _privateConstructorUsedError;
   bool get isLoading => throw _privateConstructorUsedError;
   bool get isError => throw _privateConstructorUsedError;
 
@@ -235,7 +235,7 @@ abstract class $HomescreenStateCopyWith<$Res> {
       List<RealesedInPastYearResult> lastYearList,
       List<TopTrendingMoviesResult> trendingMoviesList,
       List<Top10RatedMoviesResult> top10ratedMoviesList,
-      String mainCardImage,
+      String? mainCardImage,
       bool isLoading,
       bool isError});
 }
@@ -284,7 +284,7 @@ class _$HomescreenStateCopyWithImpl<$Res>
       mainCardImage: mainCardImage == freezed
           ? _value.mainCardImage
           : mainCardImage // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       isLoading: isLoading == freezed
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
@@ -309,7 +309,7 @@ abstract class _$InitialCopyWith<$Res>
       List<RealesedInPastYearResult> lastYearList,
       List<TopTrendingMoviesResult> trendingMoviesList,
       List<Top10RatedMoviesResult> top10ratedMoviesList,
-      String mainCardImage,
+      String? mainCardImage,
       bool isLoading,
       bool isError});
 }
@@ -358,7 +358,7 @@ class __$InitialCopyWithImpl<$Res> extends _$HomescreenStateCopyWithImpl<$Res>
       mainCardImage: mainCardImage == freezed
           ? _value.mainCardImage
           : mainCardImage // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       isLoading: isLoading == freezed
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
@@ -395,7 +395,7 @@ class _$_Initial implements _Initial {
   @override
   final List<Top10RatedMoviesResult> top10ratedMoviesList;
   @override
-  final String mainCardImage;
+  final String? mainCardImage;
   @override
   final bool isLoading;
   @override
@@ -450,7 +450,7 @@ abstract class _Initial implements HomescreenState {
       required List<RealesedInPastYearResult> lastYearList,
       required List<TopTrendingMoviesResult> trendingMoviesList,
       required List<Top10RatedMoviesResult> top10ratedMoviesList,
-      required String mainCardImage,
+      required String? mainCardImage,
       required bool isLoading,
       required bool isError}) = _$_Initial;
 
@@ -465,7 +465,7 @@ abstract class _Initial implements HomescreenState {
   @override
   List<Top10RatedMoviesResult> get top10ratedMoviesList;
   @override
-  String get mainCardImage;
+  String? get mainCardImage;
   @override
   bool get isLoading;
   @override

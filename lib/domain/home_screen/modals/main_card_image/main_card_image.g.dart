@@ -9,7 +9,7 @@ part of 'main_card_image.dart';
 MainCardImage _$MainCardImageFromJson(Map<String, dynamic> json) =>
     MainCardImage(
       adult: json['adult'] as bool?,
-      backdropPath: json['backdrop_path'],
+      backdropPath: json['backdrop_path'] as String?,
       belongsToCollection: json['belongs_to_collection'],
       budget: json['budget'] as int?,
       genres: json['genres'] as List<dynamic>?,
@@ -20,7 +20,7 @@ MainCardImage _$MainCardImageFromJson(Map<String, dynamic> json) =>
       originalTitle: json['original_title'] as String?,
       overview: json['overview'] as String?,
       popularity: json['popularity'] as int?,
-      posterPath: json['poster_path'],
+      posterPath: json['poster_path'] as String?,
       productionCompanies: json['production_companies'] as List<dynamic>?,
       productionCountries: json['production_countries'] as List<dynamic>?,
       releaseDate: json['release_date'] as String?,

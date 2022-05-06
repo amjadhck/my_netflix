@@ -35,7 +35,7 @@ class HomeScreenRepositery implements HomeScreenRepo {
 
   @override
   Future<Either<MainFailure, List<RealesedInPastYearResult>>>
-      getRelesedInThePastYearMovies() async{
+      getRelesedInThePastYearMovies() async {
     try {
       final Response response =
           await Dio(BaseOptions()).get(ApiEndPoints.releasedInPastYear);
@@ -53,15 +53,15 @@ class HomeScreenRepositery implements HomeScreenRepo {
     }
   }
 
-
   @override
-  Future<Either<MainFailure, MainCardImage>> getMainCardImage()async {
+  Future<Either<MainFailure, MainCardImage>> getMainCardImage() async {
     try {
       final Response response =
           await Dio(BaseOptions()).get(ApiEndPoints.latest);
+      log(response.data);
       if (response.statusCode == 200 || response.statusCode == 201) {
         final dowloadList = MainCardImage.fromJson(response.data);
-        
+
         return Right(dowloadList);
       } else {
         return const Left(MainFailure.serverFailure());
@@ -73,7 +73,8 @@ class HomeScreenRepositery implements HomeScreenRepo {
   }
 
   @override
-  Future<Either<MainFailure, List<TopTrendingMoviesResult>>> getTopTrendingMovies()async {
+  Future<Either<MainFailure, List<TopTrendingMoviesResult>>>
+      getTopTrendingMovies() async {
     try {
       final Response response =
           await Dio(BaseOptions()).get(ApiEndPoints.trending);
@@ -92,7 +93,8 @@ class HomeScreenRepositery implements HomeScreenRepo {
   }
 
   @override
-  Future<Either<MainFailure, List<Top10RatedMoviesResult>>> getTop10Movies()async {
+  Future<Either<MainFailure, List<Top10RatedMoviesResult>>>
+      getTop10Movies() async {
     try {
       final Response response =
           await Dio(BaseOptions()).get(ApiEndPoints.top10list);
@@ -109,6 +111,4 @@ class HomeScreenRepositery implements HomeScreenRepo {
       return const Left(MainFailure.clientFailure());
     }
   }
-  }
-
-
+}

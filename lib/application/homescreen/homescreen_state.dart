@@ -8,7 +8,7 @@ class HomescreenState with _$HomescreenState {
     required List<RealesedInPastYearResult> lastYearList,
     required List<TopTrendingMoviesResult> trendingMoviesList,
     required List<Top10RatedMoviesResult> top10ratedMoviesList,
-    required String mainCardImage,
+    required String? mainCardImage,
     required bool isLoading,
     required bool isError,
   }) = _Initial;

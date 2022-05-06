@@ -6,7 +6,7 @@ part 'main_card_image.g.dart';
 class MainCardImage {
   bool? adult;
   @JsonKey(name: 'backdrop_path')
-  dynamic backdropPath;
+  String? backdropPath;
   @JsonKey(name: 'belongs_to_collection')
   dynamic belongsToCollection;
   int? budget;
@@ -22,7 +22,7 @@ class MainCardImage {
   String? overview;
   int? popularity;
   @JsonKey(name: 'poster_path')
-  dynamic posterPath;
+  String? posterPath;
   @JsonKey(name: 'production_companies')
   List<dynamic>? productionCompanies;
   @JsonKey(name: 'production_countries')

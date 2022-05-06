@@ -15,65 +15,65 @@ const imageUrl =
     "https://www.themoviedb.org/t/p/w220_and_h330_face/BzVjmm8l23rPsijLiNLUzuQtyd.jpg";
 const nfImageUrl = "https://pngimg.com/uploads/netflix/netflix_PNG15.png";
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
-  @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
+//   @override
+//   State<HomeScreen> createState() => _HomeScreenState();
+// }
 
-class _HomeScreenState extends State<HomeScreen> {
-  final _controller = ScrollController();
-  static const double _height = 150;
-  double _top = 0;
-  double _topList = _height;
-  double _offsetA = 0;
-  double _offsetB = 0;
-  double _savedA = 0;
-  double _savedB = 0;
-  bool _tookA = false;
-  bool _tookB = false;
-  final bool _fadeContainer = true;
+// class _HomeScreenState extends State<HomeScreen> {
+//   final _controller = ScrollController();
+//   static const double _height = 150;
+//   double _top = 0;
+//   double _topList = _height;
+//   double _offsetA = 0;
+//   double _offsetB = 0;
+//   double _savedA = 0;
+//   double _savedB = 0;
+//   bool _tookA = false;
+//   bool _tookB = false;
+//   final bool _fadeContainer = true;
 
-  @override
-  void initState() {
-    super.initState();
-    _controller.addListener(listener);
-  }
+//   @override
+//   void initState() {
+//     super.initState();
+//     _controller.addListener(listener);
+//   }
 
-  void listener() {
-    double offset = _controller.offset;
+//   void listener() {
+//     double offset = _controller.offset;
 
-    _topList = _height - offset;
-    if (_topList < 0) _topList = 0;
+//     _topList = _height - offset;
+//     if (_topList < 0) _topList = 0;
 
-    if (_controller.position.userScrollDirection == ScrollDirection.reverse) {
-      _tookB = false;
-      if (!_tookA) {
-        _tookA = true;
-        _offsetA = offset;
-      }
+//     if (_controller.position.userScrollDirection == ScrollDirection.reverse) {
+//       _tookB = false;
+//       if (!_tookA) {
+//         _tookA = true;
+//         _offsetA = offset;
+//       }
 
-      var difference = offset - _offsetA;
-      _top = _savedB - difference;
-      if (_top <= -_height) _top = -_height;
-      _savedA = _top;
-    } else if (_controller.position.userScrollDirection ==
-        ScrollDirection.forward) {
-      _tookA = false;
-      if (!_tookB) {
-        _tookB = true;
-        _offsetB = offset;
-      }
+//       var difference = offset - _offsetA;
+//       _top = _savedB - difference;
+//       if (_top <= -_height) _top = -_height;
+//       _savedA = _top;
+//     } else if (_controller.position.userScrollDirection ==
+//         ScrollDirection.forward) {
+//       _tookA = false;
+//       if (!_tookB) {
+//         _tookB = true;
+//         _offsetB = offset;
+//       }
 
-      var difference = offset - _offsetB;
-      _top = _savedA - difference;
-      if (_top >= 0) _top = 0;
-      _savedB = _top;
-    }
+//       var difference = offset - _offsetB;
+//       _top = _savedA - difference;
+//       if (_top >= 0) _top = 0;
+//       _savedB = _top;
+//     }
 
-    setState(() {});
-  }
+//     setState(() {});
+//   }
 
   @override
   Widget build(BuildContext context) {
@@ -81,84 +81,147 @@ class _HomeScreenState extends State<HomeScreen> {
       BlocProvider.of<HomescreenBloc>(context)
           .add(const HomescreenEvent.initialize());
     });
+    print("build called");
     return Scaffold(
-      body: Stack(
-        children: [
-          Positioned(
-            top: _top,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            child: BlocBuilder<HomescreenBloc, HomescreenState>(
-              builder: (context, state) {
-                //print(state.dramaList);
-                final dramaList = state.dramaList.map((m) {
-                  while (m.genreIds!.contains(10759)) {
-                    return '$imageAppendUrl${m.posterPath}';
-                  }
-                }).toList();
-                dramaList.removeWhere((element) => element == null);
-                final lastyearList = state.lastYearList.map((m) {
-                  {
-                    return '$imageAppendUrl${m.posterPath}';
-                  }
-                }).toList();
-
-                final trendingList = state.trendingMoviesList.map((m) {
-                  {
-                    return '$imageAppendUrl${m.posterPath}';
-                  }
-                }).toList();
-
-                final top10List = state.top10ratedMoviesList.map((m) {
-                  {
-                    return '$imageAppendUrl${m.posterPath}';
-                  }
-                }).toList();
-
-                final mainCardImage = state.mainCardImage;
-                return ListView(
-                  controller: _controller,
-                  children: [
-                    Stack(
-                      children: [
-                        MainBackgroundImage(
-                          posterPath: mainCardImage,
-                        ),
-                        HomeBottomRow(),
-                      ],
-                    ),
-                    MainTitleCard(
-                      title: "Realesed in the past year",
-                      posterList: lastyearList,
-                    ),
-                    kheight,
-                    Top10Card(
-                      posterpath: top10List,
-                    ),
-                    kheight,
-                    MainTitleCard(
-                      title: "Trending Now",
-                      posterList: trendingList,
-                    ),
-                    kheight,
-                    MainTitleCard(
-                      title: "Dramas in TV",
-                      posterList: dramaList,
-                    ),
-                    kheight,
-                    MainTitleCard(
-                      title: "South Indan Cinema",
-                      posterList: top10List,
-                    )
-                  ],
-                );
-              },
+      extendBodyBehindAppBar: true,
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            backgroundColor: Colors.transparent,
+            expandedHeight: 150,
+            floating: true,
+            leading: Image.network(
+              nfImageUrl,
+              height: 30,
+              width: 30,
+            ),
+            actions: [
+              Icon(
+                Icons.cast,
+                color: kwhite,
+                size: 30,
+              ),
+              kwidth,
+              Container(
+                height: 10,
+                width: 30,
+                color: Colors.blue,
+              ),
+            ],
+            flexibleSpace: FlexibleSpaceBar(
+              collapseMode: CollapseMode.pin,
+              centerTitle: true,
+              title: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Text(
+                    "TV Shows",
+                    style: kHomeTextStyle,
+                  ),
+                  Text(
+                    "Movies",
+                    style: kHomeTextStyle,
+                  ),
+                  Text(
+                    "Categories",
+                    style: kHomeTextStyle,
+                  ),
+                ],
+              ),
             ),
           ),
-          //Netflix logo, cast container
-          TopContainer(
-              top: _top, fadeContainer: _fadeContainer, height: _height),
+          SliverToBoxAdapter(
+            child: Stack(
+              children: [
+                Positioned(
+                  child: BlocBuilder<HomescreenBloc, HomescreenState>(
+                    builder: (context, state) {
+                      if (state.isLoading) {
+                        return Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      } else if (state.isError) {
+                        Center(
+                          child: Text("Something went wrong"),
+                        );
+                      }
+                      //print(state.dramaList);
+                      // final dramaList = state.dramaList.map((m) {
+                      //   while (m.genreIds!.contains(10759)) {
+                      //     return '$imageAppendUrl${m.posterPath}';
+                      //   }
+                      // }).toList();
+                      // dramaList.removeWhere((element) => element == null);
+                      // final lastyearList = state.lastYearList.map((m) {
+                      //   {
+                      //     return '$imageAppendUrl${m.posterPath}';
+                      //   }
+                      // }).toList();
+                      // print("Last Year  Result" '$lastyearList');
+
+                      // final trendingList = state.trendingMoviesList.map((m) {
+                      //   {
+                      //     return '$imageAppendUrl${m.posterPath}';
+                      //   }
+                      // }).toList();
+
+                      // final top10List = state.top10ratedMoviesList.map((m) {
+                      //   {
+                      //     return '$imageAppendUrl${m.posterPath}';
+                      //   }
+                      // }).toList();
+                      // //print(top10List);
+                      final mainCardImage = state.mainCardImage;
+                      print("Man Card Image $mainCardImage");
+                      return ListView(
+                        primary: false,
+                        shrinkWrap: true,
+                        //controller: _controller,
+                        children: [
+                          Stack(
+                            children: [
+                              MainBackgroundImage(
+                                //posterPath: '$imageAppendUrl$mainCardImage',
+                                posterPath: "",
+                              ),
+                              HomeBottomRow(),
+                            ],
+                          ),
+                          MainTitleCard(
+                            title: "Realesed in the past year",
+                            // posterList: lastyearList,
+                            posterList: [],
+                          ),
+                          kheight,
+                          Top10Card(
+                            posterpath: [],
+                          ),
+                          kheight,
+                          MainTitleCard(
+                            title: "Trending Now",
+                            posterList: [],
+                          ),
+                          kheight,
+                          MainTitleCard(
+                            title: "Dramas in TV",
+                            posterList: [],
+                          ),
+                          kheight,
+                          MainTitleCard(
+                            title: "South Indan Cinema",
+                            posterList: [],
+                          )
+                        ],
+                      );
+                    },
+                  ),
+                ),
+                //Netflix logo, cast container
+                // TopContainer(
+                //     top: _top, fadeContainer: _fadeContainer, height: _height),
+              ],
+            ),
+          ),
         ],
       ),
     );
@@ -284,9 +347,8 @@ class MainBackgroundImage extends StatelessWidget {
       ),
       decoration: BoxDecoration(
         color: kblue,
-        image: DecorationImage(
-            image: NetworkImage('$imageAppendUrl$posterPath'),
-            fit: BoxFit.cover),
+        image:
+            DecorationImage(image: NetworkImage(imageUrl), fit: BoxFit.cover),
       ),
     );
   }
@@ -372,6 +434,8 @@ class MainTitleCard extends StatelessWidget {
         LimitedBox(
           maxHeight: 200,
           child: ListView(
+              primary: false,
+              shrinkWrap: true,
               scrollDirection: Axis.horizontal,
               children: List.generate(posterList.length, (index) {
                 return Padding(
@@ -385,8 +449,8 @@ class MainTitleCard extends StatelessWidget {
                       image: DecorationImage(
                         fit: BoxFit.cover,
                         image: NetworkImage(
-                          posterList[index] ?? "",
-                        ),
+                            //posterList[index] ?? "",
+                            imageUrl),
                       ),
                     ),
                   ),
@@ -412,6 +476,8 @@ class Top10Card extends StatelessWidget {
         LimitedBox(
           maxHeight: 300,
           child: ListView(
+              primary: false,
+              shrinkWrap: true,
               scrollDirection: Axis.horizontal,
               children: List.generate(10, (index) {
                 return Stack(
@@ -431,7 +497,8 @@ class Top10Card extends StatelessWidget {
                             image: DecorationImage(
                               fit: BoxFit.cover,
                               image: NetworkImage(
-                                posterpath[index],
+                                //posterpath[index],
+                                imageUrl,
                               ),
                             ),
                           ),

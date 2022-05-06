@@ -13,7 +13,7 @@ borderRadius(double radius) {
 
 const TextStyle kHomeTextStyle = TextStyle(
   color: kwhite,
-  fontSize: 16,
+  fontSize: 10,
 );
 
 const imageAppendUrl = "https://image.tmdb.org/t/p/w500";
